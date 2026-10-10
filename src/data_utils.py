@@ -4,6 +4,8 @@ import pandas as pd
 import torch
 from torch.utils.data import TensorDataset, DataLoader
 
+# step 2.5, convert the output of split_data.py into a DataLoader for each split that iterates over the split's rows, tokenized and encoded based on the training vocabulary
+
 # three special characters, <pad> is used to make every prompt the same length, <unk> means a word that was rare or didn't appear in training data,
 # and <sep> will be used to indicate where the prompt ends and output begins when both are being trained on at once
 PAD, UNK, SEP = 0, 1, 2

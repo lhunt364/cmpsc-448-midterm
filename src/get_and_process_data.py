@@ -59,5 +59,6 @@ examples = examples[examples["output"].str.strip() != ""]  # filter out rows wit
 print("total examples:", len(examples))
 print(examples["llm_group"].value_counts())
 print(examples["model"].value_counts())
+os.makedirs("data", exist_ok=True)
 examples.to_csv("data/examples.csv", index=False)
 print("saved data/examples.csv")

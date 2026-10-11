@@ -47,7 +47,7 @@ def make_ids(row, vocab, mode, max_len=256, max_input=64, ablation="none"):
     elif mode == "output":
         ids = encode(row["output"], vocab, ablation)
     elif mode == "both":
-        ids = encode(row["prompt"], vocab, ablation)[:max_input] + [SEP] + encode(row["output"], vocab)
+        ids = encode(row["prompt"], vocab, ablation)[:max_input] + [SEP] + encode(row["output"], vocab, ablation)
     else:
         raise ValueError(f"unknown mode: {mode}")
     if ablation == "last_64":

@@ -45,9 +45,9 @@ def one_epoch(model, loader, loss_fn, optimizer=None):
     return average_loss, all_predications, all_labels
 
 
-def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3):
+def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3, ablation="none"):
     torch.manual_seed(SEED)
-    loaders, vocab = make_loaders(mode)
+    loaders, vocab = make_loaders(mode, ablation=ablation)
     if model_name == "cnn":
         model = CNN(len(vocab))
     else:
@@ -91,6 +91,7 @@ def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3):
     results = {
         "model": model_name,
         "mode": mode,
+        "ablation": ablation,
         "test_accuracy": accuracy_score(test_labels, test_predications),
         "test_f1": f1_score(test_labels, test_predications, average="macro"),
         "confusion_matrix": confusion_matrix(test_labels, test_predications).tolist(),
@@ -107,8 +108,9 @@ def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3):
         print(f"\t{label}: {row}")
     print()
 
+    ablation_suffix = "" if ablation == "none" else f"_{ablation}"
     os.makedirs("results", exist_ok=True)
-    with open(f"results/{model_name}_{mode}.json", "w") as f:
+    with open(f"results/{model_name}_{mode}{ablation_suffix}.json", "w") as f:
         json.dump(results, f, indent=4)
     return results
 
@@ -119,6 +121,8 @@ if __name__ == "__main__":
     parser.add_argument("--model", choices=["cnn", "lstm", "all"], default="all")
     parser.add_argument("--mode", choices=["prompt", "output", "both", "all"], default="all")
     parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--learning_rate", type=float, default=1e-3)
+    parser.add_argument("--ablation", choices=["none", "no_format", "first_64", "last_64"], default="none")
     args = parser.parse_args()
 
     model_names = ["cnn", "lstm"] if args.model == "all" else [args.model]
@@ -126,4 +130,4 @@ if __name__ == "__main__":
 
     for model_name in model_names:
         for mode in modes:
-            train_and_evaluate(model_name, mode, args.epochs)
+            train_and_evaluate(model_name, mode, args.epochs, args.learning_rate, args.ablation)

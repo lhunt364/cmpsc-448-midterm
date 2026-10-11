@@ -20,6 +20,14 @@ class CNN(torch.nn.Module):
         return class_logits
 
 
+class LSTM(torch.nn.Module):
+    def __init__(self, vocab_size, embed_dim=128, hidden_dim=128, dropout=0.5, num_classes=4):
+        super().__init__()
+
+    def forward(self):
+        pass
+
+
 if __name__ == "__main__":
     vocab_size = 30000
     model = CNN(vocab_size)

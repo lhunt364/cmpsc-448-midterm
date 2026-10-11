@@ -8,7 +8,7 @@ import copy
 import os
 import json
 
-# step 3, using the loaders from data_utils.py and the models from models.py, train and evaluate each type of model with each input mode (prompt, output, or both)
+# step 3, using the loaders from data_utils.py and the models from models.py, train and evaluate each type of model with each input mode (prompt, output, or both) and output in results/
 
 SEED = 86
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"

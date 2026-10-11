@@ -59,16 +59,31 @@ def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3):
 
     best_val_accuracy = -1
     best_weights = None
+    best_epoch = 0
+    history = []
 
+    print(f"model_name: {model_name}, mode: {mode}, device: {DEVICE}")
     for epoch in range(1, epochs + 1):
         train_loss, train_predications, train_labels = one_epoch(model, loaders["train"], loss_function, optimizer)
         val_loss, val_predications, val_labels = one_epoch(model, loaders["val"], loss_function)
         train_accuracy = accuracy_score(train_labels, train_predications)
         val_accuracy = accuracy_score(val_labels, val_predications)
 
+        history.append({
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "train_accuracy": train_accuracy,
+            "val_loss": val_loss,
+            "val_accuracy": val_accuracy
+        })
+
+        best_flag = ""
         if val_accuracy > best_val_accuracy:
             best_val_accuracy = val_accuracy
             best_weights = copy.deepcopy(model.state_dict())
+            best_epoch = epoch
+            best_flag = " (best)"
+        print(f"epoch: {epoch}, train_loss: {train_loss:.3f}, train_acc: {train_accuracy:.3f}, val_loss: {val_loss:.3f}, val_acc: {val_accuracy:.3f}{best_flag}")
 
     model.load_state_dict(best_weights)
     test_loss, test_predications, test_labels = one_epoch(model, loaders["test"], loss_function)
@@ -81,13 +96,16 @@ def train_and_evaluate(model_name, mode, epochs, learning_rate=1e-3):
         "confusion_matrix": confusion_matrix(test_labels, test_predications).tolist(),
         "labels": LABELS,
         "vocab_size": len(vocab),
-        "num_parameters": sum(p.numel() for p in model.parameters())
+        "num_parameters": sum(p.numel() for p in model.parameters()),
+        "best_epoch": best_epoch,
+        "best_val_accuracy": best_val_accuracy,
+        "history": history
     }
-    print(f"model_name: {model_name}, mode: {mode}")
     print(f"test_accuracy: {results['test_accuracy']:.3f}, macro-F1: {results['test_f1']:.3f}")
     print("confusion matrix (row = true, col = predicted):", LABELS)
     for label, row in zip(LABELS, results["confusion_matrix"]):
         print(f"\t{label}: {row}")
+    print()
 
     os.makedirs("results", exist_ok=True)
     with open(f"results/{model_name}_{mode}.json", "w") as f:

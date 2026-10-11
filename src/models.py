@@ -16,6 +16,7 @@ class CNN(torch.nn.Module):
         embedded = embedded.transpose(1, 2) # (batch, embed_dim, seq_len) because that's how a Conv1d wants it
         filter_scores = torch.relu(self.conv(embedded)) # (batch, num_filters, number of windows = seq_len - kernel_size + 1) -> slide filters along sequence, one score per position
         pooled = filter_scores.max(dim=2).values # (batch, num_filters) each filter's max match in the text
+        pooled = self.dropout(pooled)
         class_logits = self.classifier(pooled) # (batch, num_classes) each class's score for each sequence
         return class_logits
 
@@ -46,7 +47,7 @@ class LSTM(torch.nn.Module):
             input_gate = torch.sigmoid(input_gate) # each are (batch, hidden_dim)
             forget_gate = torch.sigmoid(forget_gate)
             output_gate = torch.sigmoid(output_gate)
-            candidate = torch.tanh(output_gate)
+            candidate = torch.tanh(candidate)
 
             new_cell = forget_gate * cell + input_gate * candidate
             new_hidden = output_gate * torch.tanh(new_cell)

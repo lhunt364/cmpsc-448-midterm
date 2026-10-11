@@ -14,7 +14,7 @@ class CNN(torch.nn.Module):
         # token_ids -> (batch, sequence_length)
         embedded = self.embedded(token_ids) # (batch, seq_len, embed_dim)
         embedded = embedded.transpose(1, 2) # (batch, embed_dim, seq_len) because that's how a Conv1d wants it
-        filter_scores = torch.relu(self.conv(embedded)) # (batch, num_filters, number of windows = seq_len - kernel_size + 1) -> slide filters along sequence, one score per position
+        filter_scores = torch.relu(self.conv(embedded)) # (batch, num_filters, number of windows = (seq_len + 2) - kernel_size + 1) -> slide filters along sequence, one score per position
         pooled = filter_scores.max(dim=2).values # (batch, num_filters) each filter's max match in the text
         pooled = self.dropout(pooled)
         class_logits = self.classifier(pooled) # (batch, num_classes) each class's score for each sequence

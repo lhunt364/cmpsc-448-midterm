@@ -1,0 +1,115 @@
+{
+    "model": "lstm",
+    "mode": "prompt",
+    "ablation": "none",
+    "test_accuracy": 0.2641509433962264,
+    "test_f1": 0.2590132010055019,
+    "confusion_matrix": [
+        [
+            74,
+            69,
+            112,
+            67
+        ],
+        [
+            90,
+            83,
+            121,
+            71
+        ],
+        [
+            76,
+            71,
+            138,
+            54
+        ],
+        [
+            90,
+            82,
+            111,
+            69
+        ]
+    ],
+    "labels": [
+        "Claude",
+        "GPT",
+        "Llama",
+        "PaLM"
+    ],
+    "vocab_size": 11588,
+    "num_parameters": 1615364,
+    "best_epoch": 3,
+    "best_val_accuracy": 0.27163120567375887,
+    "history": [
+        {
+            "epoch": 1,
+            "train_loss": 1.3942669899516376,
+            "train_accuracy": 0.24723587223587223,
+            "val_loss": 1.3846822562792622,
+            "val_accuracy": 0.26595744680851063
+        },
+        {
+            "epoch": 2,
+            "train_loss": 1.3741056090197927,
+            "train_accuracy": 0.30267199017199015,
+            "val_loss": 1.3861677754855326,
+            "val_accuracy": 0.26666666666666666
+        },
+        {
+            "epoch": 3,
+            "train_loss": 1.3493623018850565,
+            "train_accuracy": 0.3522727272727273,
+            "val_loss": 1.3965264641646797,
+            "val_accuracy": 0.27163120567375887
+        },
+        {
+            "epoch": 4,
+            "train_loss": 1.307253250911722,
+            "train_accuracy": 0.3882063882063882,
+            "val_loss": 1.4199957157703156,
+            "val_accuracy": 0.2602836879432624
+        },
+        {
+            "epoch": 5,
+            "train_loss": 1.2311262519119412,
+            "train_accuracy": 0.45085995085995084,
+            "val_loss": 1.4528441792684244,
+            "val_accuracy": 0.2680851063829787
+        },
+        {
+            "epoch": 6,
+            "train_loss": 1.13310043231861,
+            "train_accuracy": 0.5138206388206388,
+            "val_loss": 1.5150159064759599,
+            "val_accuracy": 0.2553191489361702
+        },
+        {
+            "epoch": 7,
+            "train_loss": 1.0075162778029572,
+            "train_accuracy": 0.5760135135135135,
+            "val_loss": 1.6422198092683833,
+            "val_accuracy": 0.250354609929078
+        },
+        {
+            "epoch": 8,
+            "train_loss": 0.8759554756361377,
+            "train_accuracy": 0.6431203931203932,
+            "val_loss": 1.738738118841293,
+            "val_accuracy": 0.2475177304964539
+        },
+        {
+            "epoch": 9,
+            "train_loss": 0.765557714557179,
+            "train_accuracy": 0.6951781326781327,
+            "val_loss": 1.9499716435763852,
+            "val_accuracy": 0.2404255319148936
+        },
+        {
+            "epoch": 10,
+            "train_loss": 0.6881647792436567,
+            "train_accuracy": 0.7257371007371007,
+            "val_loss": 2.025895735558043,
+            "val_accuracy": 0.2425531914893617
+        }
+    ]
+}

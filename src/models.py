@@ -20,7 +20,9 @@ class CNN(torch.nn.Module):
         return class_logits
 
 
-
-
 if __name__ == "__main__":
-    pass
+    vocab_size = 30000
+    model = CNN(vocab_size)
+    class_scores = model(torch.randint(0, vocab_size, (64, 256)))
+    print("output shape:", tuple(class_scores.shape))
+    print("number of learnable parameters:", sum(p.numel() for p in model.parameters()))
